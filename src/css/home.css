@@ -445,10 +445,12 @@ body {
   font-size: 48px;
 }
 .hiring-tbs {
-  font-size: 80px;
+  font-size: 70px;
   
 }
-
+.heading-tertiary {
+  font-size: 20px;
+}
 .applybutton {
   font-size: 40px;
   text-align: center;
@@ -466,6 +468,7 @@ body {
   .tbs-name {
     font-size: 2.6rem;
   }
+  
 }
 
 @media screen and (min-width: 400px) and (max-width:830px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {

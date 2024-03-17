@@ -196,7 +196,7 @@ const handleFileRemove = (fileType) => {
             <Header />
       <main className="control-main">
       <div className="page-control-banner">
-            <video className="traffic-control-video-banner" autoPlay loop muted>
+            <video className="traffic-control-video-banner" autoPlay loop muted playsInline>
     <source src="../public/videos/TBS Roadblock Video.mp4" type="video/mp4"></source></video>
     <div className="tbs-name-container">
     <h1 className="traffic-control-heading">TRAFFIC CONTROL</h1>

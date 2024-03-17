@@ -835,7 +835,10 @@ However, if you need a bracket for your street sign, PLEASE SELECT A BRACKET!</h
 </div>
 
 <label className="traffic-sign-image-label">Traffic Sign Image:</label>
-<h1 className="traffic-sign-img-note">Note: You can only submit .png, .jpg, .jpeg files.</h1>
+<h1 className="traffic-sign-img-note">The best way to get traffic sign images is to go to:
+<a href="https://mutcd.fhwa.dot.gov/ser-shs_millennium_eng.htm" target="_blank">MUTCD SIGNS</a> to find the sign
+you need. You can put the sign number(Example: R1-1 STOP SIGN) and specify 
+the sign number in the Message. Note: You can only submit .png, .jpg, .jpeg files.</h1>
 <div className="traffic-sign-img-input">
   <div className="traffic-sign-img-section">
     <div className="traffic-sign-name-input">

@@ -79,7 +79,7 @@ const WorX = () => {
         <div className="material-container">
         <h1 className="material-page-heading">BEHIND THE SCENES</h1>
         <div className="material-video-banner">
-            <video className="material-page-video-banner" autoPlay loop muted>
+            <video className="material-page-video-banner" autoPlay loop muted playsInline>
     <source src="../public/MX/behind the scenes4.mp4" type="video/mp4"></source></video>
     <div className="material-name-container">
    

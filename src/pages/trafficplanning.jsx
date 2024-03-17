@@ -416,7 +416,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
                       ) : (
                         <span>Choose Structure File</span>
                       )}
-                      <input type="file" name="structurefile" accept=".pdf,.doc,.docx,.txt,.page" onChange={(e) => handleFileChange(e, 'structurefile')} />            
+                      <input type="file" name="structurefile" accept=".pdf,.doc,.docx,.txt,.page,.png,.jpeg,.jpg" onChange={(e) => handleFileChange(e, 'structurefile')} />            
                     </label>
                     {formData.structurefile && (
                         <button type="button" className="remove-file-plan-button" onClick={() => handleFileRemove('structurefile')}>Remove</button>

@@ -65,7 +65,7 @@ const equipmentOptions = [
   { name: 'Barricades' },
   { name: 'Cones' },
   { name: 'Roll-up Sign' },
-  { name: 'Aluminum Contruction Sign' },
+  { name: 'Aluminum Construction Sign' },
   { name: 'Message Board' },
 ]
 
@@ -534,9 +534,7 @@ onChange={(e) => setFormData({ ...formData, city: e.target.value })}
   value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
   />
   {errors.message && <span className="error-message">{errors.message}</span>}
-  {submissionMessage && (
-<div className="submission-message">{submissionMessage}</div>
-)}
+  
   </div>
   <h1 className="warning-message">WARNING: If you are turning in the equipment late, there will be a late fee charge each day late. All of our equipment has Serial
   Numbers and Trackers that we monitor once you pick up the rented equipment. If we have not
@@ -551,6 +549,9 @@ onChange={(e) => setFormData({ ...formData, city: e.target.value })}
           {errorMessage &&
             <div className="submission-error-message">{errorMessage}</div>
           }
+          {submissionMessage && (
+<div className="submission-message">{submissionMessage}</div>
+)}
 </div>
           </form>
         

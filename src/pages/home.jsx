@@ -10,7 +10,7 @@ export default function Home() {
       <Header />
           <main>
           <div className="page-banner">
-          <video className="page-banner__bg-vid-dash" autoPlay loop muted>
+          <video className="page-banner__bg-vid-dash" autoPlay loop muted playsInline>
             <source src="../public/videos/trafficflow.mp4" type="video/mp4"></source>
           </video>
           <div className="tbs-name-container">
@@ -172,9 +172,9 @@ export default function Home() {
   
             <div className="step-text-box">
               <p className="step-number">06</p>
-              <h3 className="heading-tertiary">EQUIPEMENT RENTAL & SALES</h3>
+              <h3 className="heading-tertiary">EQUIPMENT RENTAL & SALES</h3>
               <p className="step-description">
-              Equipement Rental & Sales can be a cost effective way to rent equipment for your project. You can temporarily 
+              Equipment Rental & Sales can be a cost effective way to rent equipment for your project. You can temporarily 
               use offers that can give a convenient, cost-effective, and compliant solution for managing traffic flow, enhancing safety, 
               and communicating important information during short-term projects, events, or emergencies.
               </p>
