@@ -1,0 +1,9 @@
+```
+tbssite
+  ---assets
+    ---favicon-CL8TqWiM.ico
+    ---index-BwpB_7BK.js
+    ---index-O8JtCznp.css
+  ---index.html
+  ---netlify.toml
+```
