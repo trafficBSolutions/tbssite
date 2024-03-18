@@ -1,4 +1,7 @@
+[tbssite]
+  publish = "tbssite/
+  functions = './tbssite/'
 [[redirects]] 
 from = "/*"
-to = "/index.html"
+to = "/.netlify/tbssite/index.html"
 status = 200
