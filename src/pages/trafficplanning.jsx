@@ -65,37 +65,61 @@ export default function TrafficPlan() {
   const [isSubmitting, setIsSubmitting] = useState(false); 
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
-    name: '',
+    first: '',
+    last: '',
+    company: '',
     email: '',
     phone: '',
-    company: '',
-    project: '',
     address: '',
     city: '',
     state: '',
     zip: '',
-    structureFile: '',
+    location: marker,
+    structureFile: null,
+    structureimg: null,
     message: ''
   });
   const [errors, setErrors] = useState({});
   const [submissionMessage, setSubmissionMessage] = useState('');
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
 
+  const handleStateChange = (e) => {
+    setSelectedState(e.target.value);
+    setErrors({ ...errors, state: '' }); // Clear state error when state changes
+  };
+
   const handlePhoneChange = (event) => {
     const input = event.target.value;
-    const rawInput = input.replace(/\D/g, ''); // Remove non-digit characters
-    const formatted = rawInput.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
-    
+    const formatted = input.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
     setPhone(formatted);
     setFormData({ ...formData, phone: formatted });
-  
-    // Check if the input has 10 digits and clear the error if it does
-    if (rawInput.length === 10) {
-      setErrors((prevErrors) => ({ ...prevErrors, phone: '' }));
-    } else {
-      setErrors((prevErrors) => ({ ...prevErrors, phone: 'Please enter a valid 10-digit phone number.' }));
+  };
+
+  const handleAddMarkerButtonClick = () => {
+    // Prevent form submission
+    setIsSubmitting(false);
+
+    if (!marker && map) {
+      const center = map.getCenter();
+      const newMarker = new window.google.maps.Marker({
+        position: center,
+        map: map,
+        draggable: true,
+        title: "Job Site"
+      });
+
+      newMarker.addListener('dragend', () => {
+        handleMarkerDrag(newMarker);
+      });
+
+      // Notify parent component about marker position
+      onMarkerAdd(center.lat(), center.lng());
+      setMarker(newMarker);
+
+      // Reset the isSubmitting state after adding the marker
     }
   };
+
   const handleFileChange = (e, fileType) => {
   const file = e.target.files[0];
   setFormData({ ...formData, [fileType]: file });
@@ -108,18 +132,17 @@ const handleFileRemove = (fileType) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const requiredFields = ['name', 'email', 'phone', 'company', 'project', 'address', 'city', 
+    const requiredFields = ['first', 'last', 'company', 'email', 'phone', 'address', 'city', 
     'state', 'zip', 'message'];
     const newErrors = {};
 
     requiredFields.forEach(field => {
       if (!formData[field]) {
         let fieldLabel = field.charAt(0).toUpperCase() + field.slice(1);
-        if (field === 'name') fieldLabel = 'Coordinator Name';
-        if (field === 'email') fieldLabel = 'Email';
-        if (field === 'phone') fieldLabel = 'Phone Number';
+        if (field === 'first') fieldLabel = 'First Name';
+        if (field === 'last') fieldLabel = 'Last Name';
         if (field === 'company') fieldLabel = 'Company Name';
-        if (field === 'project') fieldLabel = 'Job/Project Number';
+        if (field === 'phone') fieldLabel = 'Phone Number';
         if (field ==='address') fieldLabel = 'Address';
         if (field === 'city') fieldLabel = 'City';
         if (field ==='state') fieldLabel = 'State';
@@ -127,20 +150,13 @@ const handleFileRemove = (fileType) => {
         newErrors[field] = `${fieldLabel} is required!`;
       }
     });
-    let hasError = false;
+
     if (Object.keys(newErrors).length > 0) {
       setErrorMessage('Required fields are missing.'); // Set the general error message
       setErrors(newErrors);
       return;
     }
-    if (!addressRegex.test(formData.address)) {
-      newErrors.address = 'Enter a valid address (e.g., "123 Main St SE")';
-    }
-   // ✅ Check if structure file is uploaded
-   if (!data.structureFile) {
-    newErrors.structureFile = "Structure File is required.";
-    hasError = true;
-}
+
     try {
       const formDataToSend = new FormData();
       Object.entries(formData).forEach(([key, value]) => {
@@ -157,16 +173,17 @@ const handleFileRemove = (fileType) => {
       console.log(response.data);
       setSubmissionErrorMessage(response.data.message);
       setFormData({
-        name: '',
+        first: '',
+        last: '',
+        company: '',
         email: '',
         phone: '',
-        company: '',
-        project: '',
         address: '',
         city: '',
         state: '',
         zip: '',
-        structureFile: '',
+        structureFile: null,
+        structureimg: null,
         message: ''
       });
 
@@ -203,31 +220,58 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
       <div className="plan-box">
             <h1 className="plan-app-box">Traffic Control Plan Form</h1>
             <h2 className="plan-fill">Please Fill Out the Form Below to Submit Your Plan!</h2>
-            <h3 className="control-fill-info">Fields marked with * are required.</h3>
+        <h3 className="control-fill-info">Fields marked with * are required.</h3>
           </div>
             <div className="first-plan-input">
               <div className="first-plan-name">
                 <div className="name-first-plan-input">
                 <div className="input-plan-first-container">
-          <label className="first-plan-label-name">Coordinate Name *</label>
+          <label className="first-plan-label-name">First Name *</label>
           <input
             name="first"
             type="text"
             className="first-plan-name-input"
             text="first-name--input"
-            placeholder="Enter First & Last Name"
-            value={formData.name}
-            onChange={(e) => { 
-              setFormData({ ...formData, name: e.target.value });
-            if (e.target.value) {
-              setErrors((prevErrors) => ({ ...prevErrors, name: '' })); // Clear the error
-            }
-            }}
+            placeholder="Enter First Name"
+            value={formData.first}
+            onChange={(e) => setFormData({ ...formData, first: e.target.value })}
           />
-          {errors.name && <div className="error-message">{errors.name}</div>}
+          {errors.first && <div className="error-message">{errors.first}</div>}
         </div>
                 </div>
               </div>
+              <div className="last-plan-name">
+                <div className="name-last-plan-input">
+                <div className="input-last-plan-container">
+          <label className="last-plan-label-name">Last Name *</label>
+          <input
+            name="last"
+            type="text"
+            className="last-plan-name-input"
+            text="last-name--input"
+            placeholder="Enter Last Name"
+            value={formData.last}
+            onChange={(e) => setFormData({ ...formData, last: e.target.value })}
+          />
+          {errors.last && <div className="error-message">{errors.last}</div>}
+        </div>
+                </div>
+              </div>
+            </div>
+            <div className="company-plan-input">
+              <div className="company-plan">
+                <div className="name-company-plan-input">
+                <div className="input-plan-company-container">
+                  <label className="company-plan-name">Company *</label>
+                  <input name="company-name-input" type="text" className="company-plan-name-input" text="company--input" placeholder="Enter Company Name"
+                    value={formData.company} onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                    />
+                    {errors.company && <span className="error-message">{errors.company}</span>}
+                    </div>
+                </div>
+              </div>
+              </div>
+            <div className="emailphone-plan-input">
               <div className="email-plan">
                 <div className="name-plan-email-input">
                 <div className="input-plan-email-container">
@@ -239,12 +283,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
             text="email--input"
             placeholder="Enter Email"
             value={formData.email}
-            onChange={(e) => { 
-              setFormData({ ...formData, email: e.target.value });
-            if (e.target.value) {
-              setErrors((prevErrors) => ({ ...prevErrors, email: '' })); // Clear the error
-            }
-            }}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
           {errors.email && <div className="error-message">{errors.email}</div>}
         </div>
@@ -268,57 +307,13 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
         </div>
                 </div>
               </div>
-        </div>
+            </div>
+
             <div className="input-plan-address-container">
-            <label className="address-plan-label">Plan Information: </label>
-            <div className="company-plan">
-                <div className="name-company-plan-input">
-                <div className="input-plan-company-container">
-                <label className="project-control-label">Company Name *</label>
-  <input
-    className="project-company-input"
-    type="text"
-    placeholder="Enter Company Name"
-    value={formData.company}
-    onChange={(e) => {
-      const  value = e.target.value;
-      const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
-      setCompany(capitalizedValue);
-      setFormData({ ...formData, company: capitalizedValue });
-      // Clear error if the input is no longer empty
-      if (value.trim() !== '') {
-        setErrors((prevErrors) => ({ ...prevErrors, company: '' }));
-      }
-    }
-    }
-  />
-{errors.company && <div className="error-message">{errors.company}</div>}
-                    </div>
-                </div>
-              </div>
-            <label className="project-number-label">Job/Project Number *</label>
-  <input
-  className="project-number-input"
-  type="text"
-  placeholder="Enter Job/Project Number"
-  value={formData.project}
-  onChange={(e) => {
-    const value = e.target.value;
-
-    // Remove all non-alphanumeric characters, then convert to uppercase
-    const sanitized = value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-
-    setFormData({ ...formData, project: sanitized });
-
-    if (sanitized.trim() !== '') {
-      setErrors((prevErrors) => ({ ...prevErrors, project: '' }));
-    }
-  }}
-/>
-  {errors.project && <div className="error-message">{errors.project}</div>}
+  <label className="address-plan-label">Address of Job Site: </label>
   <div className="address-plan-input">
     <div className="address-plan-container">
-      <label className="addr-plan-label">Address of Job Site *</label>
+      <label className="addr-plan-label">Address *</label>
       <input
         name="address-box"
         type="text"
@@ -326,22 +321,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
         text="address--input"
         placeholder="Enter Address"
         value={formData.address}
-        onChange={(e) => {
-          const raw = e.target.value;
-          const cleaned = raw.replace(/[*,;/.']/g, ''); // Removes *, ; , / and .
-          setFormData({ ...formData, address: cleaned });
-        }}
-        onBlur={(e) => {
-          const addressRegex = /^\d{3,}\s+[\w\s]+(?:\s+(?:NE|NW|SE|SW))?$/i;
-          if (!addressRegex.test(e.target.value)) {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              address: 'Enter a valid address (e.g., "123 Main St SE")',
-            }));
-          } else {
-            setErrors((prevErrors) => ({ ...prevErrors, address: '' }));
-          }
-        }}
+        onChange={(e) => setFormData({ ...formData, address: e.target.value })}
       />
       {errors.address && <span className="error-message">{errors.address}</span>}
       <label className="city-plan-label">City *</label>
@@ -353,30 +333,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
         text="city--input"
         placeholder="City"
         value={formData.city}
-        onChange={(e) => {
-          const rawValue = e.target.value;
-        
-          // Remove commas, asterisks, digits, or other unwanted characters
-          const cleaned = rawValue.replace(/[^a-zA-Z\s]/g, '');
-        
-          // Capitalize first letter of each word
-          const capitalized = cleaned.replace(/\b\w/g, (char) => char.toUpperCase());
-        
-          // Regex: only letters and spaces (already enforced, but double-checked)
-          const cityRegex = /^[a-zA-Z\s]+$/;
-        
-          if (!cityRegex.test(capitalized)) {
-            setErrors((prevErrors) => ({
-              ...prevErrors,
-              city: 'City must only contain letters and spaces',
-            }));
-          } else {
-            setErrors((prevErrors) => ({ ...prevErrors, city: '' }));
-          }
-        
-          // Update formData with cleaned value
-          setFormData((prev) => ({ ...prev, city: capitalized }));
-        }}
+        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
       />
       {errors.city && <span className="error-message">{errors.city}</span>}
       
@@ -401,16 +358,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
                     type="text"
                     className="zip-plan-box"
                     value={formData.zip}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      let formattedValue = value;
-                      const rawDigits = value.replace(/\D/g, ""); // Remove non-numeric characters
-                      formattedValue = rawDigits.slice(0, 5); // Limit to 5 digits
-                      setFormData({ ...formData, zip: e.target.value })
-                      if (formattedValue.length === 5) {
-                        setErrors((prevErrors) => ({ ...prevErrors, zip: '' }));
-                    }
-                  }}
+                    onChange={(e) => setFormData({ ...formData, zip: e.target.value })}
                     placeholder="Zip Code"
                     maxLength={5}
                     pattern="\d{5}"
@@ -421,47 +369,34 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
     </div>
   </div>
 </div>
-<div className="input-plan-container">
-  <label className="structure-plan-label">Structure of Plan *</label>
-  <h2 className="structure-plan-note">
-    Upload a PDF, or a Word Document for your plan's structure.
-  </h2>
-  <div className="structure-plan-input">
-    <div className="structure-plan-section">
-      <div className="name-plan-structure-input">
-        <div className="file-plan-input-container">
-          <label className="file-plan-label">
-            {formData.structureFile ? (
-              <span>{formData.structureFile.name}</span>
-            ) : (
-              <span>Choose Structure File</span>
-            )}
-            <input type="file" name="structureFile" accept=".pdf,.doc,.docx,.txt,.page" onChange={(e) => {
-                        handleFileChange(e, 'structureFile');
-                          if (e.target.files[0]) {
-                            setErrors((prevErrors) => ({ ...prevErrors, structureFile: '' })); // Clear the error
-                          }}}
-                          />
-          </label>
-          {formData.structureFile && (
-            <button 
-              type="button" 
-              className="remove-file-plan-button" 
-              onClick={() => handleFileRemove('structureFile')}
-            >
-              Remove
-            </button>
-          )}
-          {errors.structureFile && <span className="error-message">{errors.structureFile}</span>}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+
+ <div className="input-plan-container">
+            <label className="structure-plan-label">Structure of Plan *</label>
+            <h1 className="structure-plan-note">Upload a PDF, or a Word Document for your plan's structure. </h1>
+            <div className="structure-plan-input">
+              <div className="structure-plan-section">
+                <div className="name-plan-structure-input">
+                  <div className="file-plan-input-container">
+                    <label className="file-plan-label">
+                      {formData.structurefile ? (
+                        <span>{formData.structurefile.name}</span>
+                      ) : (
+                        <span>Choose Structure File</span>
+                      )}
+                      <input type="file" name="structurefile" accept=".pdf,.doc,.docx,.txt,.page,.png,.jpeg,.jpg" onChange={(e) => handleFileChange(e, 'structurefile')} />            
+                    </label>
+                    {formData.structurefile && (
+                        <button type="button" className="remove-file-plan-button" onClick={() => handleFileRemove('structurefile')}>Remove</button>
+                      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+   </div>
             <div className="input-message-plan-container">
             <label className="message-plan-label">Message *</label>
-            <h1 className="message-plan-note">Please explain how your plan needs to be designed and be descriptive! </h1>
+            <h1 className="message-plan-note">Please include your Project Number or Job Number of your plan. Also, please explain how your plan needs to be designed and be descriptive! </h1>
 
             <textarea className="message-plan-text" name="message" type="text" placeholder="Enter Message"
               value={formData.message} onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -471,7 +406,7 @@ Together, we can create safer roads, smoother traffic flow, and more resilient c
             <div className="submission-message">{submissionMessage}</div>
           )}
               </div>
-              <button type="button" className="btn btn--full submit-plan" onClick={handleSubmit}>SUBMIT TRAFFIC CONTROL PLAN</button>
+              <button type="button" className="btn btn--full submit-plan" onClick={handleSubmit}>SUBMIT TRAFFIC PLAN</button>
               {submissionErrorMessage &&
             <div className="submission-error-message">{submissionErrorMessage}</div>
           }
