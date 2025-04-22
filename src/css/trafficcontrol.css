@@ -269,6 +269,14 @@
   height: 20rem;
   font-family: Arial, Helvetica, sans-serif;
 }
+.submission-control-message {
+  color: #009f1b;
+  font-size: 1.5rem;
+  margin: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
 .submit-control {
   display: flex;
   font-size: 1.3rem;
@@ -481,6 +489,10 @@ border-radius: 5px;
     line-height: 1.2rem;
     display: block;
   }
+  .submission-control-message {
+    font-size: 1.2rem;
+    line-height: 1.4rem;
+  }
 }
 
 @media screen and (max-width: 320px) and (orientation: landscape) {
@@ -538,6 +550,10 @@ border-radius: 5px;
   margin-top: 0.5rem;
   display: block;
 }
+.submission-control-message {
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+}
 }
 @media screen and (max-width: 320px) and (orientation: portrait) {
   .traffic-control-head {
@@ -593,5 +609,9 @@ border-radius: 5px;
   font-size: 01rem;
   margin-top: 0.5rem;
   display: block;
+}
+.submission-control-message {
+  font-size: 1.2rem;
+  line-height: 1.4rem;
 }
 }
