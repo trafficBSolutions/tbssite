@@ -1,0 +1,275 @@
+.ppe-main {
+  background-color: #bcc3bd;
+}
+.ppe-descript {
+  font-size: 8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #000000;
+  font-family: "Moveo Sans W00 Bold";
+}
+  .ppe-container {
+    background-color: #f7d7bc;
+  }
+  .ppe-form-container {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 10px #0000001a;
+    margin: 20px auto;
+    max-width: 900px;
+  }
+  .ppe-description {
+    font-size: 2rem;
+    line-height: 1.5;
+    margin: 20px auto;
+    list-style: none;
+    text-align: center;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .ppe-description ul {
+    list-style-type: none; /* Bulleted list */
+    padding-left: 20px; /* Indent bullets */
+    margin-top: 10px;
+  }
+  
+  .ppe-description li {
+    margin-bottom: 10px; /* Space between list items */
+  }
+  
+  .ppe-description strong {
+    color: #000; /* Emphasize key points */
+  }
+  
+  .ppe-form-h1 {
+    font-size: 32px;
+    text-align: center;
+    color: #64340d;
+    margin-bottom: 10px;
+  }
+  .ppe-fill {
+    font-size: 20px;
+    color: #8b4c18;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .PPE-list {
+    font-size: 30px;
+    font-family: "Moveo Sans W00 Regular";
+    list-style: none;
+  }
+.file-ppe-label input[type="file"] {
+  display: none;
+}
+  .file-ppe-label, 
+  .remove-file-ppe-button {
+    background-color: #e67e22;
+    color: #fff;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 18px;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+
+  .ppe-img-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ppe-flex-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .ppe-img-container {
+    margin: 10px;
+    text-align: center;
+  }
+  
+  .ppe-img {
+    width: 100%; /* Adjust size as needed */
+    height: auto;
+  }
+  
+  .ppe-img-text {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  .message-ppe-text {
+    font-size: 1.5rem;
+  height: 20rem;
+  font-family: Arial, Helvetica, sans-serif;
+  }
+  .submit-ppe, .submit-ppe-quantity, .remove-ppe-quantity {
+    display: flex;
+  font-size: 1.3rem;
+  justify-content: center;
+  }
+  .first-ppe-input,
+  .company-ppe-input,
+  .emailphone-ppe-input,
+  .input-ppe-addr-container,
+  .ppe-section,
+  .name-stucture-ppe-input,
+  .input-ppe-message-container {
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px #00000084;
+  }
+  @media screen and (max-width: 1200px) and (orientation: landscape) {
+    .ppe-descript {
+      font-size: 5rem;
+    }
+    .ppe-form-h1 {
+      font-size: 2.5rem;
+    }
+    .ppe-description {
+      font-size: 1.3rem;
+    }
+    .ppe-fill {
+      font-size: 1.5rem;
+    }
+    .ppe-img-container {
+      margin: 10px 0;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+    .ppe-img-text {
+      font-size: 2rem;
+    }
+    .ppe-flex-container {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 1200px) and (orientation: portrait) {
+    .ppe-descript {
+      font-size: 6rem;
+    }
+    .ppe-form-h1 {
+      font-size: 2.5rem;
+    }
+    .ppe-description {
+      font-size: 1.3rem;
+    }
+    .ppe-fill {
+      font-size: 1.5rem;
+    }
+    .ppe-img-container {
+      margin: 10px 0;
+    }
+
+    .ppe-img-text {
+      font-size: 2rem;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+  }
+  @media screen and (min-width: 320px) and (max-width: 600px) and (orientation: portrait) {
+    .ppe-descript {
+      font-size: 5rem;
+    }
+    .ppe-form-h1 {
+      font-size: 2.5rem;
+    }
+    .ppe-description {
+      font-size: 1.3rem;
+    }
+    .ppe-fill {
+      font-size: 1.5rem;
+    }
+    .ppe-img-container {
+      margin: 10px 0;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+    .ppe-img-text {
+      font-size: 2rem;
+    }
+    .ppe-flex-container {
+      flex-direction: column;
+      align-items: center;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+    .ppe-img-text {
+      font-size: 2rem;
+    }
+    .ppe-flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 320px) and (orientation: landscape) {
+    .ppe-descript {
+      font-size: 6rem;
+    }
+    .ppe-form-h1 {
+      font-size: 2.5rem;
+    }
+    .ppe-description {
+      font-size: 1.3rem;
+    }
+    .ppe-fill {
+      font-size: 1.5rem;
+    }
+    .ppe-img-container {
+      margin: 5px;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+    .ppe-img-text {
+      font-size: 12px;
+    }
+    .ppe-flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+  @media screen and (max-width: 320px) and (orientation: portrait) {
+    .ppe-descript {
+      font-size: 6rem;
+    }
+    .ppe-form-h1 {
+      font-size: 2.5rem;
+    }
+    .ppe-description {
+      font-size: 1rem;
+    }
+    .ppe-fill {
+      font-size: 1.5rem;
+    }
+    .ppe-img-container {
+      margin: 5px;
+    }
+    .ppe-img {
+      width: 100%;
+    }
+    .ppe-img-text {
+      font-size: 12px;
+    }
+    .ppe-flex-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
